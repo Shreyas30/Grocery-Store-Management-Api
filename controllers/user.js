@@ -11,8 +11,8 @@ export const registerUser = async (req,res) =>{
 
     try {
 
-        const hashPassword = bcrypt.hash(password,12);
-
+        const hashPassword = await bcrypt.hash(password,12);
+    
         const newUser = {
             name:name,
             username:username,
@@ -28,29 +28,32 @@ export const registerUser = async (req,res) =>{
 
         //! USer Doesnt Exists
         else{
-            await User.create(newUser);
+            await userModel.create(newUser);
             res.status(200).json({message:"Registration Suceessful"});
         }
 
     } catch (error) {
+        console.log(error);
          res.status(500).json(error);
     }
 
 }
 
 
-export const authenticateUSer = async (req,res) =>{
+export const authenticateUser = async (req,res) =>{
     const {username,password} = req.body;
-
+    
     try {
-        const existingUser = User.findOne(username);
-
+        
+        const existingUser = await userModel.findOne({username:username});
+        
         if(!existingUser)  //! USer Doesnt Exists
             return res.status(404).json({message:"User Doesn't Exists"});
 
         //* If User Exists
         const isPasswordCorrect = await bcrypt.compare(password,existingUser.password);
 
+        
         //! If Wrong Password
         if(!isPasswordCorrect) 
             return res.status(400).json({message:"Invalid Credentials"});
@@ -58,8 +61,9 @@ export const authenticateUSer = async (req,res) =>{
         //* If Password Correct 
         const token = jwt.sign({id:existingUser.__id,username:existingUser.username},process.env.SECRET_KEY,{expiresIn:"1h"});
         res.status(200).json({message:"Your Token Will be Valid for 1 Hour",token:token});
-
+     
     } catch (error) {
+        console.log(error);
          res.status(500).json(error);
     }
 
