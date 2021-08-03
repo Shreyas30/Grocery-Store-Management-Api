@@ -6,12 +6,12 @@ import userModel from "../models/user.js";
 //* To access Environment variables
 dotenv.config()
 
-export const registerUser = (req,res) =>{
+export const registerUser = async (req,res) =>{
     const {name,username,email,password} = req.body;
 
     try {
 
-        const hashPassword = await bcrypt.hash(password,12);
+        const hashPassword = bcrypt.hash(password,12);
 
         const newUser = {
             name:name,
@@ -39,7 +39,7 @@ export const registerUser = (req,res) =>{
 }
 
 
-export const authenticateUSer = (req,res) =>{
+export const authenticateUSer = async (req,res) =>{
     const {username,password} = req.body;
 
     try {
