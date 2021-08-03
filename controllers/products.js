@@ -1,5 +1,5 @@
 export const getProducts = (req,res) =>{
-    res.send("This Works");
+    res.send(req.username);
 };
 export const addProduct = (req,res) =>{
     res.send(req.params);
