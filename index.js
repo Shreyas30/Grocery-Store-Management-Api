@@ -18,14 +18,22 @@ app.use(express.urlencoded({limit:"30mb",extended:true}));
 app.use(cors());
 
 //* Importing Routes
-import Routes from "./routes/products.js";;
+import ProductRoutes from "./routes/products.js";;
+import UserRoutes from "./routes/user.js";;
 
-//* view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
+// //view engine setup
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
+//loclahost:3000/products/jdosdpj
 //? Routing
-app.use("/",Routes);
+app.use("/products",ProductRoutes);
+app.use("/user",UserRoutes);
+
+app.use("/",(req,res)=>{
+    res.json({
+        message:"Welcome"
+    })
+})
 
 //* MongoDB Connection
 const CONNECTION_URL = process.env.MONGODB_URL; //? FEtching From ".env" File
