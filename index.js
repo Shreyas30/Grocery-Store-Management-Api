@@ -40,6 +40,7 @@ const CONNECTION_URL = process.env.MONGODB_URL; //? FEtching From ".env" File
 const PORT = process.env.PORT || 3000;
 
 mongoose.connect(CONNECTION_URL,{useNewUrlParser:true,useUnifiedTopology:true})
+
     .then(() => app.listen(PORT,()=> console.log(`Server Running on port: ${PORT}`)))
     .catch((error)=>console.log(error.message));
 
