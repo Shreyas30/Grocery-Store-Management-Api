@@ -9,10 +9,10 @@ const auth = async (req,res,next) => {
             jwt.verify(token, process.env.SECRET_KEY,function(err, decoded) {
                 //! If token Expired or Invalid
                 if (err) {
-                    res.status(401).json({message: err.message})
+                   return res.status(401).json({message: err.message})
                 }
 
-                req.username = decoded?.username;
+                req.userid = decoded?.userid;
                 next();
             });
         }
@@ -23,6 +23,7 @@ const auth = async (req,res,next) => {
 
     } catch (error) {
         console.log(error);
+        return res.status(500).json({message: err.message})
     }
 }
 

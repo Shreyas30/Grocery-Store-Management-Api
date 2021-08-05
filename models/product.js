@@ -8,6 +8,7 @@ const productSchema = mongoose.Schema({
     category: String,
     image:String,
     quantity:Number,
+    quantityUnit:String,
     price:Number,
 });
 
